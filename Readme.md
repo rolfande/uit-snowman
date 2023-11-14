@@ -2,11 +2,11 @@
 
 ## About
 
-The Snowman project is an IoT project where we have installed an RGB LED strip inside a "cloth" snowman. This LED strip is changing colors by listening to an MQTT server. The project was initiated as a fun Christmas decoration project by the IT department at UiT (https://uit.no).
+The Snowman project is an IoT project where we have installed an RGB LED strip inside a "cloth" snowman. This LED strip is changing colors by listening to an MQTT server. The project was initiated as a fun Christmas decoration project by the IT department at UiT (<https://uit.no>).
 
 ## MQTT server
 
-The MQTT server is setup using Azure Container Instances an docker image from eclipse-mosquitto - https://hub.docker.com/_/eclipse-mosquitto. To prepare the resources you need an Azure Subscription and Contributor rights to create resources.
+The MQTT server is setup using Azure Container Instances an docker image from eclipse-mosquitto - <https://hub.docker.com/_/eclipse-mosquitto>. To prepare the resources you need an Azure Subscription and Contributor rights to create resources.
 
 Example of how to create resources by using AZ CLI commands
 <https://learn.microsoft.com/nb-no/azure/container-instances/>
