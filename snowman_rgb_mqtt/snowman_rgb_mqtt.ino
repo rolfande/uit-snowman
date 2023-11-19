@@ -115,8 +115,29 @@ void setColor(String color)
 
 
 void loop() {
+  if (!client.connected()) {
+    reconnect();
+  }
+
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("WiFi connection lost. Reconnecting...");
+    WiFi.begin(ssid, pass);
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(1000);
+      Serial.println("Connecting to WiFi...");
+    }
+    Serial.println();
+    Serial.print("Connected to SSID: ");
+    Serial.print(ssid);
+    Serial.print(". IP-address: ");
+    Serial.print(WiFi.localIP());
+    Serial.print(" / MAC-address: ");
+    Serial.println(WiFi.macAddress());
+  }
+
   client.loop();
   
   // Check again in 5 seconds
   delay(5000);
+  
 }
