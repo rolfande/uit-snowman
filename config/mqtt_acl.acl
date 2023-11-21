@@ -1,4 +1,2 @@
-topic snownmancolor {    
-    allow off red green blue magenta cyan yellow white
-    deny all
-}
+user kalle
+topic readwrite snowmancolor
