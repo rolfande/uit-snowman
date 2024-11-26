@@ -95,9 +95,10 @@ void loop() {
     connectMqtt();
   }
 
+  // Check for incoming messages from MQTT server regularly
   client.loop();
   
-  // Check again in 5 seconds
+  // Wait 5 seconds before next check
   delay(5000);
 }
 
