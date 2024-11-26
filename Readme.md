@@ -13,7 +13,7 @@ Eg. Paho MQTT Client library for Python can be used (<https://pypi.org/project/p
 
 ## About
 
-The Snowman project is an IoT project where we have installed an RGB LED strip inside a "cloth" snowman. This LED strip is changing colors by listening to an MQTT server. The project was initiated as a fun Christmas decoration project by the IT department at UiT (<https://uit.no>).
+The Snowman project is an IoT initiative featuring an RGB LED strip installed inside a fabric snowman. This LED strip changes colors based on messages received from an MQTT server. The project was started as a festive Christmas decoration by the IT department at UiT (<https://uit.no>).
 
 ## MQTT server
 
@@ -46,6 +46,6 @@ Create Container Instance:
 
 Diagram of the wiring schematic for the Arduino setup;
 
-The Arduino board used in the project is: <https://arduino-esp8266.readthedocs.io/>
+The Arduino board used in the project is: <https://arduino-esp8266.readthedocs.io/> Install it in the Arduino IDE by following this instructions; https://arduino-esp8266.readthedocs.io/en/latest/installing.html#instructions
 
-PubSub client library used for subscribing to MQTT message queue is <https://github.com/knolleary/pubsubclient>
+MQTT library used for subscribing to message queue is PubSub Client by Nick O'Leary: <https://pubsubclient.knolleary.net/> - <https://github.com/knolleary/pubsubclient>
