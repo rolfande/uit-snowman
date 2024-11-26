@@ -22,45 +22,17 @@ void setup() {
   Serial.begin(115200);
   delay(10);
 
-  WiFi.begin(ssid, pass);
-
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
-  }
-  Serial.println();
-  Serial.print("Connected to SSID: ");
-  Serial.print(ssid);
-  Serial.print(". IP-address: ");
-  Serial.print(WiFi.localIP());
-  Serial.print(" / MAC-address: ");
-  Serial.println(WiFi.macAddress());
-
-  client.setServer(mqttServer, mqttPort);
-  client.setCallback(callback);
+  // Connect to WiFi
+  connectWifi();
   
-  while (!client.connected()) {
-    Serial.println("Connecting to MQTT...");
-  
-    if (client.connect("snowman", mqtt_user, mqtt_pass)) {
-  
-      Serial.print("Listening to MQTT-server ");
-      Serial.println(mqttServer);
-  
-    } else {
-  
-      Serial.print("failed with state ");
-      Serial.print(client.state());
-      delay(2000);
-  
-    }
-  }
-  
-  client.subscribe("snowmancolor");
+  // Connect to MQTT
+  connectMqtt();
   
   pinMode(pinRed,OUTPUT);
   pinMode(pinGreen,OUTPUT);
   pinMode(pinBlue,OUTPUT);
+
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
@@ -115,29 +87,57 @@ void setColor(String color)
 
 
 void loop() {
-  if (!client.connected()) {
-    reconnect();
-  }
-
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("WiFi connection lost. Reconnecting...");
-    WiFi.begin(ssid, pass);
-    while (WiFi.status() != WL_CONNECTED) {
-      delay(1000);
-      Serial.println("Connecting to WiFi...");
-    }
-    Serial.println();
-    Serial.print("Connected to SSID: ");
-    Serial.print(ssid);
-    Serial.print(". IP-address: ");
-    Serial.print(WiFi.localIP());
-    Serial.print(" / MAC-address: ");
-    Serial.println(WiFi.macAddress());
+    connectWifi();
+  }
+  if (!client.connected()) {
+    connectMqtt();
   }
 
   client.loop();
   
   // Check again in 5 seconds
   delay(5000);
+}
+
+void connectWifi()
+{
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, pass);
+  while (WiFi.status() != WL_CONNECTED) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(2000);
+    Serial.println("Connecting to WiFi...");
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(1000);
+  }
+  Serial.println();
+  Serial.print("Connected to SSID: ");
+  Serial.print(ssid);
+  Serial.print(". IP-address: ");
+  Serial.print(WiFi.localIP());
+  Serial.print(" / MAC-address: ");
+  Serial.println(WiFi.macAddress());
+}
+
+void connectMqtt() {
+  client.setServer(mqttServer, mqttPort);
+  client.setCallback(callback);
+
+  while (!client.connected()) {
+    Serial.println("Connecting to MQTT...");
   
+    if (client.connect("snowman", mqtt_user, mqtt_pass)) {
+  
+      Serial.print("Listening to MQTT-server ");
+      Serial.println(mqttServer);
+  
+    } else {
+      Serial.print("failed with state ");
+      Serial.println(client.state());
+      delay(2000);
+    }
+  }
+  client.subscribe("snowmancolor");
 }
