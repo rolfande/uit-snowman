@@ -21,18 +21,16 @@ void setup() {
   
   Serial.begin(115200);
   delay(10);
-
-  // Connect to WiFi
-  connectWifi();
-  
-  // Connect to MQTT
-  connectMqtt();
-  
+  Serial.println("Starting Snowman RGB MQTT");
   pinMode(pinRed,OUTPUT);
   pinMode(pinGreen,OUTPUT);
   pinMode(pinBlue,OUTPUT);
+  pinMode(LED_BUILTIN,OUTPUT);
 
-  pinMode(LED_BUILTIN, OUTPUT);
+  // Connect to WiFi
+  connectWifi();
+  // Connect to MQTT
+  connectMqtt();
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
@@ -92,7 +90,9 @@ void loop() {
     connectWifi();
   }
   if (!client.connected()) {
+    digitalWrite(LED_BUILTIN, HIGH);
     connectMqtt();
+    digitalWrite(LED_BUILTIN, LOW);
   }
 
   // Check for incoming messages from MQTT server regularly
